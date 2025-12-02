@@ -40,6 +40,7 @@
 	right: 0px;
 	left: 0px;
 	height: var(--header-height);
+	padding: 0px 16px;
 	background: var(--gradient-background-vertical);
 	border-bottom: var(--ui-border);
 }
@@ -47,7 +48,8 @@
 #header>.button{
 	height: var(--header-height);
 	width: var(--header-height);
-	margin-left: 16px;
+	margin-right: 16px;
+	cursor: pointer;
 }
 
 #header>#logo{
@@ -59,12 +61,41 @@
 	grid-template-columns: 1fr min-content;
 	flex-grow: 1;
 	height: var(--header-height);
-	margin-left: 16px;
+}
+
+#header>.search>.query{
+	grid-column: 1 / 4;
+	grid-row: 1 / 2;
+	justify-self: end;
+	height: var(--header-height);
+	width: var(--header-height);
+	border: none;
+	padding: 0px;
+	margin: 0px;
+	outline: none;
+	cursor: pointer;
+	text-indent: 16px;
+	color: transparent;
+	background: transparent;
+	transition: width 0.16s ease-out, background 0.16s ease-out;
+}
+
+#header>.search:focus-within>.query{
+	width: 100%;
+	cursor: text;
+	color: white;
+	background: black;
 }
 
 #header>.search>.submit{
-	grid-column: 2 / 4;
+	grid-column: 3 / 4;
+	grid-row: 1 / 2;
 	height: var(--header-height);
 	width: var(--header-height);
-	margin-right: 16px;
+	cursor: pointer;
+	pointer-events: none;
+}
+
+#header>.search:focus-within>.submit{
+	pointer-events: auto;
 }

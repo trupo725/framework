@@ -45,8 +45,11 @@ var header = function(){
 	this.element.appendChild(this.logo);
 	this.search = document.createElement('form');
 	this.search.className = 'search';
-	this.element.appendChild(this.search);
+	this.query = document.createElement('input');
+	this.query.className = 'query';
+	this.search.appendChild(this.query);
 	this.submit = document.createElement('button');
 	this.submit.className = 'button submit';
 	this.search.appendChild(this.submit);
+	this.element.appendChild(this.search);
 };
