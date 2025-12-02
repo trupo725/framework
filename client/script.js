@@ -20,8 +20,10 @@ var error = function(){
 	element.call(this);
 	this.element.className += ' error';
 	this.type = document.createElement('h2');
+	this.type.className = 'type';
 	this.element.appendChild(this.type);
 	this.recommendation = document.createElement('p');
+	this.recommendation.className = 'recommendation';
 	this.element.appendChild(this.recommendation);
 	this.data = null;
 };
@@ -46,14 +48,14 @@ var pool = function(template,count){
 	this.template = template;
 	this.content = [];
 
-	while(let i = 0; i < count; i++){
-		this.content[] = new this.template();
+	for(let i = 0; i < count; i++){
+		this.content[i] = new this.template();
 	}
 };
 
 pool.prototype.fill = function(data){
 	if(!this.content[this.content.length - 1].clean){
-		while(let i = this.content.length, let ii = i * 2; i < ii; i++){
+		for(let i = this.content.length, ii = i * 2; i < ii; i++){
 			this.content[i] = new this.template();
 		}
 	}
@@ -63,7 +65,7 @@ pool.prototype.fill = function(data){
 };
 
 pool.prototype.clear = function(){
-	while(let i = 0; !this.content[i].clean; i++){
+	for(let i = 0; !this.content[i].clean; i++){
 		this.content[i].clear();
 	}
 };
@@ -80,16 +82,16 @@ memory.prototype.new = function(name, template, count){
 };
 
 memory.prototype.fill = function(data){
-	while(let i = 0, let ii = data.length; i < ii; i++){
+	for(let i = 0, ii = data.length; i < ii; i++){
 		if(isset(this.pool[data[i].type])){
 			this.fragment.appendChild(this.pool[data[i].type].fill(data[i]));
 		} else {
 			this.fragment.appendChild(this.error[data[i].type].fill(data[i], {
 				'type':'loading',
 				'recommendation':'Please wait.'
-			});
+			}));
 			// fetch
-			await fetch('/client/element/' + data.type + '.js', {
+			fetch('/client/element/' + data.type + '.js', {
 
 			}).then(result => {
 
