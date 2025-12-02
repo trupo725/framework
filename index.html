@@ -16,6 +16,14 @@
 			var Menu = new menu(Memory);
 			var Header = new header();
 
+			Header.navigation.onclick = function(){
+				menu.prototype.toggle.call(Menu);
+			};
+
+			Header.logo.onclick = function(){
+				main.prototype.update.call(Main);
+			};
+
 			document.body.appendChild(Main.element);
 			document.body.appendChild(Menu.element);
 			document.body.appendChild(Header.element);
