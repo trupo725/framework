@@ -5,12 +5,20 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Framework</title>
 		<script src="/client/script.js"></script>
+		<script src="/client/interface.js"></script>
 		<link rel="stylesheet" href="/client/style.css">
+		<link rel="stylesheet" href="/client/interface.css">
 	</head>
 	<body>
 		<script>
-			var Main = new main();
+			var Memory = new memory();
+			var Main = new main(Memory);
+			var Menu = new menu(Memory);
+			var Header = new header();
+
 			document.body.appendChild(Main.element);
+			document.body.appendChild(Menu.element);
+			document.body.appendChild(Header.element);
 		</script>
 		<noscript class="element error">
 			<h2 class="type">javascript disabled.</h2>

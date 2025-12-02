@@ -117,16 +117,3 @@ view.prototype.fill = function(data){
 view.prototype.clear = function(){
 
 };
-
-var main = function(memory){
-	view.call(this, memory);
-	this.element.className += ' main';
-};
-
-main.prototype.fill = function(page){
-	view.prototype.fill.call(this, page.content);
-};
-
-main.prototype.clear = function(){
-
-};
