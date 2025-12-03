@@ -38,10 +38,12 @@ var header = function(){
 	this.element.id = 'header';
 	this.navigation = document.createElement('button');
 	this.navigation.className = 'button';
+	this.navigation.textContent = 'menu';
 	this.element.appendChild(this.navigation);
 	this.logo = document.createElement('button');
 	this.logo.className = 'button';
 	this.logo.id = 'logo';
+	this.logo.textContent = 'home';
 	this.element.appendChild(this.logo);
 	this.search = document.createElement('form');
 	this.search.className = 'search';
@@ -50,6 +52,7 @@ var header = function(){
 	this.search.appendChild(this.query);
 	this.submit = document.createElement('button');
 	this.submit.className = 'button submit';
+	this.submit.textContent = 'search';
 	this.search.appendChild(this.submit);
 	this.element.appendChild(this.search);
 };

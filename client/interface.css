@@ -1,13 +1,45 @@
 :root {
-	--color-logo:rgb(20, 20, 200);
+	--color-logo: rgb(20, 20, 200);
+	--color-button: rgb(48, 48, 48);
 	--gradient-background-horizontal: linear-gradient(90deg, rgba(250, 250, 250, 0.72) 0%, rgba(250, 250, 250, 0.36) 100%);
 	--gradient-background-vertical: linear-gradient(180deg, rgba(250, 250, 250, 0.72) 0%, rgba(250, 250, 250, 0.36) 100%);
 	--ui-border: 1px solid rgba(250, 250, 250, 0.72);
+	--ui-font: "Material Icons Outlined";
 	--header-height: 48px;
+	--backdrop-filter: grayscale(0.5) blur(4px);
+}
+
+body{
+	background: rgb(221, 217, 204);
+}
+
+@font-face {
+  font-family: "Material Icons Outlined";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("./material-icons-outlined.woff2") format("woff2");
+}
+
+.button {
+  font-family: "Material Icons Outlined";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "liga";
 }
 
 #main{
-	background: #1094d5; /* temp */
 	position: absolute;
 	top: var(--header-height);
 	right: 0px;
@@ -16,13 +48,15 @@
 }
 
 #menu{
+	display: flex;
+	flex-direction: column;
 	position: fixed;
 	top: var(--header-height);
 	bottom: 0px;
 	left: 0px;
 	width: 275px;
 	background: var(--gradient-background-horizontal);
-	backdrop-filter: grayscale(0.5);
+	backdrop-filter: var(--backdrop-filter);
 	border-right: var(--ui-border);
 	transform: translateX(0%);
 	transition: transform 0.16s ease-out;
@@ -42,6 +76,7 @@
 	height: var(--header-height);
 	padding: 0px 16px;
 	background: var(--gradient-background-vertical);
+	backdrop-filter: var(--backdrop-filter);
 	border-bottom: var(--ui-border);
 }
 
@@ -49,6 +84,8 @@
 	height: var(--header-height);
 	width: var(--header-height);
 	margin-right: 16px;
+	font-family: var(--ui-font);
+	color: var(--color-button);
 	cursor: pointer;
 }
 
@@ -83,8 +120,8 @@
 #header>.search:focus-within>.query{
 	width: 100%;
 	cursor: text;
-	color: white;
-	background: black;
+	color: rgb(250, 250, 250);
+	background: var(--color-button);
 }
 
 #header>.search>.submit{
@@ -92,10 +129,13 @@
 	grid-row: 1 / 2;
 	height: var(--header-height);
 	width: var(--header-height);
+	font-family: var(--ui-font);
+	color: var(--color-button);
 	cursor: pointer;
 	pointer-events: none;
 }
 
 #header>.search:focus-within>.submit{
+	color: rgb(250, 250, 250);
 	pointer-events: auto;
 }
