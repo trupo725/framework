@@ -17,16 +17,19 @@
 			var Header = new header();
 
 			Header.navigation.onclick = function(){
-				menu.prototype.toggle.call(Menu);
+				Menu.toggle();
 			};
 
-			Header.logo.onclick = function(){
-				main.prototype.update.call(Main);
+			Header.home.onclick = function(){
+				Main.update('home', {});
 			};
 
 			document.body.appendChild(Main.element);
 			document.body.appendChild(Menu.element);
 			document.body.appendChild(Header.element);
+
+			// TEST CODE
+			Main.update('test', {});
 		</script>
 		<noscript class="element error">
 			<h2 class="type">javascript disabled.</h2>

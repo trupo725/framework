@@ -1,12 +1,12 @@
 :root {
-	--color-logo: rgb(20, 20, 200);
+	--color-logo: #065fd4;
 	--color-button: rgb(48, 48, 48);
 	--gradient-background-horizontal: linear-gradient(90deg, rgba(250, 250, 250, 0.72) 0%, rgba(250, 250, 250, 0.36) 100%);
 	--gradient-background-vertical: linear-gradient(180deg, rgba(250, 250, 250, 0.72) 0%, rgba(250, 250, 250, 0.36) 100%);
 	--ui-border: 1px solid rgba(250, 250, 250, 0.72);
 	--ui-font: "Material Icons Outlined";
 	--header-height: 48px;
-	--backdrop-filter: grayscale(0.5) blur(4px);
+	--backdrop-filter: grayscale(0.72) blur(4px) brightness(1.24);
 }
 
 body{
@@ -39,12 +39,36 @@ body{
   font-feature-settings: "liga";
 }
 
+.element{
+	background: rgb(250, 250, 250);
+	border-radius: 8px;
+	border: 1px solid black;
+}
+
+.element.error{
+	background: rgb(200, 20, 20);
+	height: 140px;
+}
+
+.element.placeholder{
+	background: var(--color-logo);
+	height: 140px;
+}
+
 #main{
+	display: grid;
+	align-content: start;
 	position: absolute;
 	top: var(--header-height);
 	right: 0px;
 	left: 0px;
 	min-height: calc(150% - var(--header-height)); /* temp  */
+	padding: 16px;
+}
+
+#main{
+	grid-template-columns: repeat(4, 1fr);
+	grid-gap: 16px;
 }
 
 #menu{
@@ -89,7 +113,8 @@ body{
 	cursor: pointer;
 }
 
-#header>#logo{
+#header>#home{
+	font-size: 32px;
 	color: var(--color-logo);
 }
 

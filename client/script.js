@@ -1,6 +1,7 @@
 var element = function(){
 	this.element = document.createElement('div');
 	this.element.className = 'element';
+	this.element.id = null;
 	this.clean = true;
 };
 
@@ -29,22 +30,40 @@ var error = function(){
 };
 
 error.prototype.fill = function(data, metadata){
-	this.type.text = metadata.type;
-	this.recommendation.text = metadata.recommendation;
+	this.type.textContent = metadata.type;
+	this.recommendation.textContent = metadata.recommendation;
 	this.data = data;
 
 	return element.prototype.fill.call(this, data);
 };
 
 error.prototype.clear = function(){
-	this.type.text = null;
-	this.recommendation.text = null;
+	this.type.textContent = null;
+	this.recommendation.textContent = null;
 	this.data = null;
 
 	element.prototype.clear.call(this);
 };
 
-var pool = function(template,count){
+var placeholder = function(){
+	element.call(this);
+	this.element.className += ' placeholder';
+	this.data = null;
+};
+
+placeholder.prototype.fill = function(data, metadata){
+	this.data = data;
+
+	return element.prototype.fill.call(this, data);
+};
+
+placeholder.prototype.clear = function(){
+	this.data = null;
+
+	element.prototype.clear.call(this);
+};
+
+var pool = function(template, count){
 	this.template = template;
 	this.content = [];
 
@@ -53,7 +72,7 @@ var pool = function(template,count){
 	}
 };
 
-pool.prototype.fill = function(data){
+pool.prototype.fill = function(data, metadata){
 	if(!this.content[this.content.length - 1].clean){
 		for(let i = this.content.length, ii = i * 2; i < ii; i++){
 			this.content[i] = new this.template();
@@ -61,7 +80,7 @@ pool.prototype.fill = function(data){
 	}
 	this.content.unshift(this.content.pop());
 
-	return this.content[0].fill(data);
+	return this.content[0].fill(data, metadata);
 };
 
 pool.prototype.clear = function(){
@@ -73,31 +92,35 @@ pool.prototype.clear = function(){
 var memory = function(){
 	this.fragment = document.createDocumentFragment();
 	this.error = {};
+	this.placeholder = {};
 	this.pool = {};
 };
 
 memory.prototype.new = function(name, template, count){
-	this.pool[name] = new pool(template, count);
 	this.error[name] = new pool(error, 2);
+	this.pool[name] = new pool(template, count);
 };
 
 memory.prototype.fill = function(data){
 	for(let i = 0, ii = data.length; i < ii; i++){
-		if(isset(this.pool[data[i].type])){
+		if(typeof this.pool[data[i].type] !== 'undefined'){
 			this.fragment.appendChild(this.pool[data[i].type].fill(data[i]));
 		} else {
-			this.fragment.appendChild(this.error[data[i].type].fill(data[i], {
-				'type':'loading',
-				'recommendation':'Please wait.'
-			}));
-			// fetch
-			fetch('/client/element/' + data.type + '.js', {
+			if(typeof this.placeholder[data[i].type] == 'undefined'){
+				this.placeholder[data[i].type] = new pool(placeholder, 2);
+				fetch('/element/' + data[i].type + '.js', {
 
-			}).then(result => {
-
-			}).then(data => {
-
-			});
+				}).then(result => {
+					return result.text();
+				}).then(template => {
+					this.pool[data[i].type] = new pool(Function(template), 2);
+					for(let iii = 0, iv = this.placeholder[data[i].type].content.length; iii < iv; iii++){
+						this.placeholder[data[i].type].content[iii].element.replaceWith(this.pool[data[i].type].fill(data[i]));
+						this.placeholder[data[i].type].content[iii].clear()
+					}
+				});
+			}
+			this.fragment.appendChild(this.placeholder[data[i].type].fill(data[i], {}));
 		}
 	}
 
@@ -115,5 +138,19 @@ view.prototype.fill = function(data){
 };
 
 view.prototype.clear = function(){
+
+};
+
+view.prototype.update = function(address, argument){
+	fetch('/page/' + address + '.json', {
+
+	}).then(result => {
+		return result.json();
+	}).then(data => {
+		this.fill(data);
+	});
+};
+
+view.prototype.extend = function(){
 
 };

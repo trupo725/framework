@@ -11,8 +11,8 @@ main.prototype.clear = function(){
 
 };
 
-main.prototype.update = function(){
-
+main.prototype.update = function(address, argument){
+	view.prototype.update.call(this, address, argument)
 };
 
 main.prototype.extend = function(){
@@ -40,11 +40,11 @@ var header = function(){
 	this.navigation.className = 'button';
 	this.navigation.textContent = 'menu';
 	this.element.appendChild(this.navigation);
-	this.logo = document.createElement('button');
-	this.logo.className = 'button';
-	this.logo.id = 'logo';
-	this.logo.textContent = 'home';
-	this.element.appendChild(this.logo);
+	this.home = document.createElement('button');
+	this.home.className = 'button';
+	this.home.id = 'home';
+	this.home.textContent = 'home';
+	this.element.appendChild(this.home);
 	this.search = document.createElement('form');
 	this.search.className = 'search';
 	this.query = document.createElement('input');
