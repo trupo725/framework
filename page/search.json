@@ -1,0 +1,8 @@
+{
+	"content":[{
+		"type":"error",
+		"id":"404",
+		"message":"test error",
+		"recommendation":"..."
+	}]
+}

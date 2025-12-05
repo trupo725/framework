@@ -24,6 +24,17 @@
 				Main.update('home', {});
 			};
 
+			Header.search.onsubmit = function(){
+				Main.update('search', {
+					method: "POST",
+					body: JSON.stringify({
+						query:"example"
+					}),
+				});
+
+				return false;
+			}
+
 			document.body.appendChild(Main.element);
 			document.body.appendChild(Menu.element);
 			document.body.appendChild(Header.element);

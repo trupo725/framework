@@ -20,27 +20,24 @@ element.prototype.clear = function(){
 var error = function(){
 	element.call(this);
 	this.element.className += ' error';
-	this.type = document.createElement('h2');
-	this.type.className = 'type';
-	this.element.appendChild(this.type);
+	this.message = document.createElement('h2');
+	this.message.className = 'message';
+	this.element.appendChild(this.message);
 	this.recommendation = document.createElement('p');
 	this.recommendation.className = 'recommendation';
 	this.element.appendChild(this.recommendation);
-	this.data = null;
 };
 
-error.prototype.fill = function(data, metadata){
-	this.type.textContent = metadata.type;
-	this.recommendation.textContent = metadata.recommendation;
-	this.data = data;
+error.prototype.fill = function(data){
+	this.message.textContent = data.message;
+	this.recommendation.textContent = data.recommendation;
 
 	return element.prototype.fill.call(this, data);
 };
 
 error.prototype.clear = function(){
-	this.type.textContent = null;
+	this.message.textContent = null;
 	this.recommendation.textContent = null;
-	this.data = null;
 
 	element.prototype.clear.call(this);
 };
@@ -51,7 +48,7 @@ var placeholder = function(){
 	this.data = null;
 };
 
-placeholder.prototype.fill = function(data, metadata){
+placeholder.prototype.fill = function(data){
 	this.data = data;
 
 	return element.prototype.fill.call(this, data);
@@ -72,7 +69,7 @@ var pool = function(template, count){
 	}
 };
 
-pool.prototype.fill = function(data, metadata){
+pool.prototype.fill = function(data){
 	if(!this.content[this.content.length - 1].clean){
 		for(let i = this.content.length, ii = i * 2; i < ii; i++){
 			this.content[i] = new this.template();
@@ -80,7 +77,7 @@ pool.prototype.fill = function(data, metadata){
 	}
 	this.content.unshift(this.content.pop());
 
-	return this.content[0].fill(data, metadata);
+	return this.content[0].fill(data);
 };
 
 pool.prototype.clear = function(){
@@ -94,10 +91,10 @@ var memory = function(){
 	this.error = {};
 	this.placeholder = {};
 	this.pool = {};
+	this.pool['error'] = new pool(error, 2);
 };
 
 memory.prototype.new = function(name, template, count){
-	this.error[name] = new pool(error, 2);
 	this.pool[name] = new pool(template, count);
 };
 
@@ -142,9 +139,7 @@ view.prototype.clear = function(){
 };
 
 view.prototype.update = function(address, argument){
-	fetch('/page/' + address + '.json', {
-
-	}).then(result => {
+	fetch('/page/' + address + '.json', argument).then(result => {
 		return result.json();
 	}).then(data => {
 		this.fill(data);
